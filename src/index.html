@@ -521,8 +521,11 @@
             showLoading();
             
             try {
+                // Railway 后端地址
+                const API_BASE = 'https://stock-analysis-production.up.railway.app';
+                
                 // 调用后端API获取数据
-                const response = await fetch(`https://stock-analysis-production.up.railway.app/stock/${apiCode}?start=${startDate}&end=${endDate}`, {
+                const response = await fetch(`${API_BASE}/stock/${apiCode}?start=${startDate}&end=${endDate}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 });
