@@ -6,45 +6,27 @@
     <title>经济周期与股票分析</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #fff;
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         header {
             text-align: center;
             padding: 30px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             margin-bottom: 30px;
         }
-        
         h1 {
             font-size: 2.5rem;
             background: linear-gradient(90deg, #00d4ff, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
         }
-        
-        .subtitle {
-            color: #888;
-            font-size: 1rem;
-        }
-        
+        .subtitle { color: #888; margin-top: 10px; }
         .search-section {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -52,25 +34,9 @@
             margin-bottom: 24px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        
-        .search-box {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .input-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-        
+        .search-box { display: flex; gap: 12px; flex-wrap: wrap; }
+        .input-group { flex: 1; min-width: 200px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #aaa; font-size: 0.9rem; }
         input {
             width: 100%;
             padding: 12px 16px;
@@ -79,117 +45,51 @@
             background: rgba(255,255,255,0.05);
             color: #fff;
             font-size: 1rem;
-            transition: all 0.3s;
         }
-        
-        input:focus {
-            outline: none;
-            border-color: #00d4ff;
-            box-shadow: 0 0 20px rgba(0,212,255,0.2);
-        }
-        
-        input::placeholder {
-            color: #666;
-        }
-        
+        input:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 20px rgba(0,212,255,0.2); }
         .btn {
             padding: 12px 32px;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
             font-weight: 600;
-        }
-        
-        .btn-primary {
             background: linear-gradient(90deg, #00d4ff, #7c3aed);
             color: #fff;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
-        }
-        
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.3); }
         .stock-info {
             margin-top: 20px;
             padding: 20px;
             background: rgba(0,212,255,0.1);
             border-radius: 12px;
             border: 1px solid rgba(0,212,255,0.3);
+            display: none;
         }
-        
-        .stock-info h3 {
-            color: #00d4ff;
-            margin-bottom: 12px;
-        }
-        
-        .stock-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-        }
-        
-        .meta-item {
-            padding: 12px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-        }
-        
-        .meta-label {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 4px;
-        }
-        
-        .meta-value {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
+        .stock-info h3 { color: #00d4ff; margin-bottom: 12px; }
+        .stock-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+        .meta-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .meta-label { font-size: 0.8rem; color: #888; margin-bottom: 4px; }
+        .meta-value { font-size: 1.2rem; font-weight: 600; }
         .chart-section {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 24px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        
-        #chart {
-            width: 100%;
-            height: 500px;
-            border-radius: 12px;
-            background: rgba(0,0,0,0.2);
-        }
-        
+        #chart { width: 100%; height: 500px; border-radius: 12px; background: rgba(0,0,0,0.2); }
         .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 300px;
-            color: #888;
+            display: flex; align-items: center; justify-content: center; height: 300px; color: #888;
         }
-        
         .spinner {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 3px solid rgba(255,255,255,0.1);
             border-top-color: #00d4ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 12px;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
+        @keyframes spin { to { transform: rotate(360deg); } }
         .error {
             padding: 20px;
             background: rgba(255,0,0,0.1);
@@ -197,48 +97,32 @@
             border-radius: 12px;
             color: #ff6b6b;
             text-align: center;
+            display: none;
         }
-        
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        .quick-links {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        
+        .quick-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
         .quick-link {
             padding: 6px 12px;
             background: rgba(255,255,255,0.1);
             border-radius: 20px;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        
-        .quick-link:hover {
-            background: rgba(0,212,255,0.3);
-        }
+        .quick-link:hover { background: rgba(0,212,255,0.3); }
+        footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📊 经济周期与股票分析</h1>
-            <p class="subtitle">输入股票代码或名称，查看历史走势与技术分析</p>
+            <p class="subtitle">输入股票代码，查看历史走势与技术分析</p>
         </header>
         
         <section class="search-section">
             <div class="search-box">
                 <div class="input-group">
-                    <label>股票代码或名称</label>
-                    <input type="text" id="stockCode" placeholder="如: 600519 (茅台) 或 000001 (平安)" value="000001">
+                    <label>股票代码</label>
+                    <input type="text" id="stockCode" placeholder="如: 600519 (茅台)" value="000001">
                 </div>
                 <div class="input-group">
                     <label>开始日期</label>
@@ -249,56 +133,47 @@
                     <input type="date" id="endDate" value="2026-04-02">
                 </div>
                 <div class="input-group" style="display: flex; align-items: flex-end;">
-                    <button class="btn btn-primary" id="searchBtn" onclick="searchStock()">
-                        🔍 查询
-                    </button>
+                    <button class="btn" onclick="searchStock()">🔍 查询</button>
                 </div>
             </div>
-            
             <div class="quick-links">
-                <span style="color: #888; font-size: 0.9rem;">快捷:</span>
+                <span style="color: #888;">快捷:</span>
                 <span class="quick-link" onclick="quickSearch('600519')">贵州茅台</span>
                 <span class="quick-link" onclick="quickSearch('000001')">平安银行</span>
                 <span class="quick-link" onclick="quickSearch('601899')">紫金矿业</span>
                 <span class="quick-link" onclick="quickSearch('000858')">五粮液</span>
                 <span class="quick-link" onclick="quickSearch('600036')">招商银行</span>
             </div>
-            
-            <div id="stockInfo" class="stock-info" style="display: none;"></div>
-            <div id="error" class="error" style="display: none;"></div>
+            <div id="stockInfo" class="stock-info"></div>
+            <div id="error" class="error"></div>
         </section>
         
         <section class="chart-section">
             <div id="chart"></div>
             <div id="loading" class="loading" style="display: none;">
-                <div class="spinner"></div>
-                加载中...
+                <div class="spinner"></div>加载中...
             </div>
         </section>
         
         <footer>
-            <p>数据来源: akshare · 免费开源</p>
-            <p style="margin-top: 8px;">本工具仅供参考，不构成投资建议</p>
+            <p>数据来源: 东方财富 · 免费开源</p>
+            <p>本工具仅供参考，不构成投资建议</p>
         </footer>
     </div>
     
     <script>
-        // ECharts实例
         let chart = null;
         
-        // 初始化图表
         function initChart() {
             chart = echarts.init(document.getElementById('chart'));
             window.addEventListener('resize', () => chart.resize());
         }
         
-        // 快捷搜索
         function quickSearch(code) {
             document.getElementById('stockCode').value = code;
             searchStock();
         }
         
-        // 显示加载
         function showLoading() {
             document.getElementById('loading').style.display = 'flex';
             document.getElementById('chart').style.display = 'none';
@@ -306,67 +181,58 @@
             document.getElementById('stockInfo').style.display = 'none';
         }
         
-        // 隐藏加载
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('chart').style.display = 'block';
         }
         
-        // 显示错误
         function showError(msg) {
             hideLoading();
             document.getElementById('error').textContent = msg;
             document.getElementById('error').style.display = 'block';
         }
         
-        // 显示股票信息
         function showStockInfo(data) {
             const infoDiv = document.getElementById('stockInfo');
+            const changeColor = data.change >= 0 ? '#ff6b6b' : '#51cf66';
             infoDiv.innerHTML = `
                 <h3>${data.name} (${data.code})</h3>
                 <div class="stock-meta">
                     <div class="meta-item">
                         <div class="meta-label">最新价</div>
-                        <div class="meta-value" style="color: ${data.change >= 0 ? '#ff6b6b' : '#51cf66'}">
-                            ¥${data.latestPrice?.toFixed(2) || 'N/A'}
-                        </div>
+                        <div class="meta-value" style="color: ${changeColor}">¥${data.latestPrice?.toFixed(2)}</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">涨跌幅</div>
-                        <div class="meta-value" style="color: ${data.change >= 0 ? '#ff6b6b' : '#51cf66'}">
-                            ${data.change >= 0 ? '+' : ''}${data.change?.toFixed(2) || 'N/A'}%
-                        </div>
+                        <div class="meta-value" style="color: ${changeColor}">${data.change >= 0 ? '+' : ''}${data.change?.toFixed(2)}%</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">成交量</div>
-                        <div class="meta-value">${(data.volume / 100000000).toFixed(2)}亿股</div>
+                        <div class="meta-value">${(data.volume / 100000000).toFixed(2)}亿</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">成交额</div>
-                        <div class="meta-value">${(data.amount / 100000000).toFixed(2)}亿元</div>
+                        <div class="meta-value">${(data.amount / 100000000).toFixed(2)}亿</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">最高</div>
-                        <div class="meta-value">¥${data.high?.toFixed(2) || 'N/A'}</div>
+                        <div class="meta-value">¥${data.high?.toFixed(2)}</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">最低</div>
-                        <div class="meta-value">¥${data.low?.toFixed(2) || 'N/A'}</div>
+                        <div class="meta-value">¥${data.low?.toFixed(2)}</div>
                     </div>
                 </div>
             `;
             infoDiv.style.display = 'block';
         }
         
-        // 绘制图表
         function drawChart(data) {
             hideLoading();
-            
             const dates = data.map(d => d.date);
             const prices = data.map(d => d.close);
             const volumes = data.map(d => d.volume);
             
-            // 计算MA
             const ma5 = calculateMA(5, prices);
             const ma10 = calculateMA(10, prices);
             const ma20 = calculateMA(20, prices);
@@ -374,124 +240,49 @@
             const option = {
                 backgroundColor: 'rgba(0,0,0,0.2)',
                 borderRadius: 12,
-                
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { type: 'cross' },
                     backgroundColor: 'rgba(30,30,30,0.9)',
-                    borderColor: '#333',
                     textStyle: { color: '#fff' }
                 },
-                
                 legend: {
                     data: ['价格', 'MA5', 'MA10', 'MA20', '成交量'],
                     textStyle: { color: '#aaa' },
                     top: 10
                 },
-                
                 grid: [
                     { left: 60, right: 20, top: 60, height: '55%' },
                     { left: 60, right: 20, top: '75%', height: '15%' }
                 ],
-                
                 xAxis: [
-                    {
-                        type: 'category',
-                        data: dates,
-                        gridIndex: 0,
-                        axisLabel: { color: '#888', show: false },
-                        axisLine: { lineStyle: { color: '#333' } }
-                    },
-                    {
-                        type: 'category',
-                        data: dates,
-                        gridIndex: 1,
-                        axisLabel: { color: '#888' },
-                        axisLine: { lineStyle: { color: '#333' } }
-                    }
+                    { type: 'category', data: dates, gridIndex: 0, axisLabel: { color: '#888', show: false }, axisLine: { lineStyle: { color: '#333' } } },
+                    { type: 'category', data: dates, gridIndex: 1, axisLabel: { color: '#888' }, axisLine: { lineStyle: { color: '#333' } } }
                 ],
-                
                 yAxis: [
-                    {
-                        type: 'value',
-                        gridIndex: 0,
-                        axisLabel: { color: '#888', formatter: '¥{value}' },
-                        splitLine: { lineStyle: { color: '#222' } },
-                        scale: true
-                    },
-                    {
-                        type: 'value',
-                        gridIndex: 1,
-                        axisLabel: { color: '#888', formatter: v => (v/100000000).toFixed(0) + '亿' },
-                        splitLine: { show: false },
-                        max: Math.max(...volumes) * 2
-                    }
+                    { type: 'value', gridIndex: 0, axisLabel: { color: '#888', formatter: '¥{value}' }, splitLine: { lineStyle: { color: '#222' } }, scale: true },
+                    { type: 'value', gridIndex: 1, axisLabel: { color: '#888', formatter: v => (v/100000000).toFixed(0) + '亿' }, splitLine: { show: false } }
                 ],
-                
                 series: [
+                    { name: '价格', type: 'line', data: prices, smooth: true, lineStyle: { width: 2, color: '#00d4ff' }, areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(0,212,255,0.3)' }, { offset: 1, color: 'rgba(0,212,255,0)' }]) } },
+                    { name: 'MA5', type: 'line', data: ma5, smooth: true, lineStyle: { width: 1, color: '#ff6b6b' }, showSymbol: false },
+                    { name: 'MA10', type: 'line', data: ma10, smooth: true, lineStyle: { width: 1, color: '#ffd93d' }, showSymbol: false },
+                    { name: 'MA20', type: 'line', data: ma20, smooth: true, lineStyle: { width: 1, color: '#6bcb77' }, showSymbol: false },
                     {
-                        name: '价格',
-                        type: 'line',
-                        data: prices,
-                        smooth: true,
-                        lineStyle: { width: 2, color: '#00d4ff' },
-                        itemStyle: { color: '#00d4ff' },
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0, color: 'rgba(0,212,255,0.3)' },
-                                { offset: 1, color: 'rgba(0,212,255,0)' }
-                            ])
-                        }
-                    },
-                    {
-                        name: 'MA5',
-                        type: 'line',
-                        data: ma5,
-                        smooth: true,
-                        lineStyle: { width: 1, color: '#ff6b6b' },
-                        showSymbol: false
-                    },
-                    {
-                        name: 'MA10',
-                        type: 'line',
-                        data: ma10,
-                        smooth: true,
-                        lineStyle: { width: 1, color: '#ffd93d' },
-                        showSymbol: false
-                    },
-                    {
-                        name: 'MA20',
-                        type: 'line',
-                        data: ma20,
-                        smooth: true,
-                        lineStyle: { width: 1, color: '#6bcb77' },
-                        showSymbol: false
-                    },
-                    {
-                        name: '成交量',
-                        type: 'bar',
-                        xAxisIndex: 1,
-                        yAxisIndex: 1,
+                        name: '成交量', type: 'bar', xAxisIndex: 1, yAxisIndex: 1,
                         data: volumes,
-                        itemStyle: {
-                            color: params => prices[params.dataIndex] >= prices[params.dataIndex - 1] 
-                                ? 'rgba(255,107,107,0.6)' 
-                                : 'rgba(81,207,102,0.6)'
-                        }
+                        itemStyle: { color: params => prices[params.dataIndex] >= (prices[params.dataIndex-1] || prices[params.dataIndex]) ? 'rgba(255,107,107,0.6)' : 'rgba(81,207,102,0.6)' }
                     }
                 ]
             };
-            
             chart.setOption(option);
         }
         
-        // 计算均线
         function calculateMA(day, data) {
             const result = [];
             for (let i = 0; i < data.length; i++) {
-                if (i < day - 1) {
-                    result.push('-');
-                } else {
+                if (i < day - 1) { result.push('-'); }
+                else {
                     const sum = data.slice(i - day + 1, i + 1).reduce((a, b) => a + b, 0);
                     result.push((sum / day).toFixed(2));
                 }
@@ -499,61 +290,72 @@
             return result;
         }
         
-        // 搜索股票
         async function searchStock() {
             const code = document.getElementById('stockCode').value.trim();
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
             
-            if (!code) {
-                showError('请输入股票代码');
-                return;
-            }
-            
-            // 转换代码格式
-            let apiCode = code;
-            if (code.startsWith('6')) {
-                apiCode = 'sh' + code;
-            } else if (code.startsWith('0') || code.startsWith('3')) {
-                apiCode = 'sz' + code;
-            }
+            if (!code) { showError('请输入股票代码'); return; }
             
             showLoading();
             
             try {
-                // Railway 后端地址
-                const API_BASE = 'https://stock-analysis-production.up.railway.app';
+                // 直接调用东方财富API
+                let secid;
+                if (code.startsWith('6')) { secid = `1.${code}`; }
+                else if (code.startsWith('0') || code.startsWith('3')) { secid = `0.${code}`; }
+                else { secid = `0.${code}`; }
                 
-                // 调用后端API获取数据
-                const response = await fetch(`${API_BASE}/stock/${apiCode}?start=${startDate}&end=${endDate}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
+                const url = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${secid}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61&klt=101&fqt=1&beg=${startDate.replace(/-/g,'')}&end=${endDate.replace(/-/g,'')}&lmt=1000000`;
                 
-                if (!response.ok) {
-                    throw new Error('获取数据失败，请稍后重试');
-                }
-                
+                const response = await fetch(url);
                 const result = await response.json();
                 
-                if (result.error) {
-                    throw new Error(result.error);
+                if (!result.data || !result.data.klines) {
+                    throw new Error('未找到该股票，请检查代码是否正确');
                 }
                 
-                showStockInfo(result.info);
-                drawChart(result.data);
+                const stockName = result.data.name || code;
+                const klines = result.data.klines;
+                
+                const data = klines.map(k => {
+                    const fields = k.split(',');
+                    return {
+                        date: fields[0],
+                        open: parseFloat(fields[1]),
+                        close: parseFloat(fields[2]),
+                        high: parseFloat(fields[3]),
+                        low: parseFloat(fields[4]),
+                        volume: parseFloat(fields[5]),
+                        amount: parseFloat(fields[6])
+                    };
+                });
+                
+                const latest = data[data.length - 1];
+                const prevClose = data.length > 1 ? data[data.length - 2].close : latest.close;
+                const change = ((latest.close - prevClose) / prevClose * 100).toFixed(2);
+                
+                showStockInfo({
+                    code: code,
+                    name: stockName,
+                    latestPrice: latest.close,
+                    change: parseFloat(change),
+                    volume: latest.volume,
+                    amount: latest.amount,
+                    high: latest.high,
+                    low: latest.low
+                });
+                
+                drawChart(data);
                 
             } catch (error) {
                 console.error('Error:', error);
-                showError(error.message || '查询失败，请检查股票代码是否正确');
+                showError(error.message || '查询失败，请检查股票代码');
             }
         }
         
-        // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', () => {
             initChart();
-            // 默认查询平安银行
-            // searchStock();
         });
     </script>
 </body>
