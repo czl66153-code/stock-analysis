@@ -521,8 +521,8 @@
             showLoading();
             
             try {
-                // 调用云函数获取数据
-                const response = await fetch(`https://⑥⑤⑤⑤⑥⑧⑧⑨-hsh-0a9d9xq5gd.gzollptzea.com/api/stock/${apiCode}?start=${startDate}&end=${endDate}`, {
+                // 调用后端API获取数据
+                const response = await fetch(`https://stock-analysis-production.up.railway.app/stock/${apiCode}?start=${startDate}&end=${endDate}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 });
